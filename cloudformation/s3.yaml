@@ -78,7 +78,9 @@ Resources:
             Principal:
               Service: cloudfront.amazonaws.com
             Action: s3:GetObject
-            Resource: 'arn:aws:s3:::learning-tracking-frontend/*'
+            Resource:
+              Fn::Sub: '${S3Bucket.Arn}/*'
+            # Resource: 'arn:aws:s3:::learning-tracking-frontend/*'
             Condition:
               StringEquals:
                 AWS:SourceArn:

@@ -30,24 +30,25 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4.1.0
         with:
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::926989967422:role/GithubActionsHarold
+          role-to-assume: ${{ secrets.AWS_GITHUB_ROLE}}
+        #   role-to-assume: arn:aws:iam::926989967422:role/GithubActionsHarold
 
       - name: Create AWS Infrastructure
         run: |
           aws cloudformation deploy \
-          --stack-name 'learning-tracking-frontend' \
+          --stack-name '${{ vars.STACK_NAME }}' \
           --template-file './cloudformation/s3.yaml' \
-          --parameter-overrides BucketName=learning-tracking-frontend
+          --parameter-overrides BucketName=${{ vars.STACK_NAME }}
 
       - name: Push the website
         run: |
-          aws s3 cp ./dist/ s3://learning-tracking-frontend/ --recursive
+          aws s3 cp ./dist/ s3://${{ vars.BUCKET_WEBSITE_NAME }}/ --recursive
 
       - name: Get cloudfront Distribution Id from stack output
         id: get-distribution-id
         run: |
           DISTRIBUTION_ID=$(aws cloudformation describe-stacks \
-            --stack-name learning-tracking-frontend \
+            --stack-name ${{ vars.STACK_NAME }} \
             --query "Stacks[0].Outputs[?OutputKey=='DistributionId'].OutputValue" \
             --output text)
           echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
