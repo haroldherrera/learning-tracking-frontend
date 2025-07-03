@@ -42,3 +42,9 @@ jobs:
       - name: Push the website
         run: |
           aws s3 cp ./dist/ s3://learning-tracking-frontend/ --recursive
+
+      - name: Run Cloudfront invalidations
+        run: |
+          aws cloudfront create-invalidation \
+              --distribution-id E1HV38Z1MI2UZP \
+              --paths "/"
