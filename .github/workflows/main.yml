@@ -21,3 +21,8 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Create AWS Infrastructure
+        run: aws cloudformation deploy \
+          --stack-name learning-tracking-frontend \
+          --template-file cloudformation/s3.yaml \
