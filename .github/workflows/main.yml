@@ -43,8 +43,16 @@ jobs:
         run: |
           aws s3 cp ./dist/ s3://learning-tracking-frontend/ --recursive
 
+      - name: Get cloudfront Distribution Id from stack output
+        id: get-distribution-id
+        run: |
+          DISTRIBUTION_ID=$(aws cloudformation describe-stacks \
+            --stack-name learning-tracking-frontend \
+            --query "Stacks[0].Outputs[?OutputKey=='DistributionId'].OutputValue" \
+            --output text)
+          echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
       - name: Run Cloudfront invalidations
         run: |
           aws cloudfront create-invalidation \
-              --distribution-id E1HV38Z1MI2UZP \
+              --distribution-id ${{ steps.get-distribution-id.outputs.distribution_id }} \
               --paths "/"
