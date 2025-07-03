@@ -9,9 +9,7 @@ function App() {
 
   return (
     <>
-      <div className='flex min-h-svh flex-col items-center justify-center'>
-        <Button>Click me now!</Button>
-      </div>
+      <Button>Click me!</Button>
       <div>
         <a href='https://vite.dev' target='_blank'>
           <img src={viteLogo} className='logo' alt='Vite logo' />
