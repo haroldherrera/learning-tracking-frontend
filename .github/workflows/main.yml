@@ -1,1 +1,14 @@
-name: deploy the frontend to AWS S3
+name: Deploy the React app on AWS S3
+on:
+  push:
+    branches: ['main']
+
+jobs:
+  frontend-build-and-deployment:
+    name: Build
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
