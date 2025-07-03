@@ -83,3 +83,11 @@ Resources:
               StringEquals:
                 AWS:SourceArn:
                   Fn::Sub: 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudfrontDistribution.Id}'
+
+Outputs:
+  DistributionId:
+    Description: The distribution id that was just created or updated
+    Value:
+      Fn::GetAtt:
+        - CloudfrontDistribution
+        - Id
