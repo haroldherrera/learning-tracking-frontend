@@ -38,6 +38,7 @@ jobs:
           --stack-name 'learning-tracking-frontend' \
           --template-file './cloudformation/s3.yaml' \
           --parameter-overrides BucketName=learning-tracking-frontend
+
       - name: Push the website
         run: |
-          aws s3 cp /dist/ s3://learning-tracking-frontend/ --recursive
+          aws s3 cp ./dist/ s3://learning-tracking-frontend/ --recursive
