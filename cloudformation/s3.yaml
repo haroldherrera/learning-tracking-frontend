@@ -1,0 +1,85 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Creates the S3 bucket for displaying the Frontend React app
+
+Parameters:
+  BucketName:
+    Description: The name for the bucket that will host the frontend React APP
+    Type: String
+    AllowedPattern: '^(?!.*\.\.)(?!-)(?!.*-$)(?!.*\.-)(?!.*-\.)[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$'
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName:
+        Ref: BucketName
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: error.html
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+
+  OriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        OriginAccessControlOriginType: s3
+        Name: OACForCloudfront
+        Description: OACForCloudfront
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  CloudfrontDistribution:
+    DependsOn:
+      - OriginAccessControl
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+          - Id: website
+            DomainName:
+              Fn::GetAtt:
+                - S3Bucket
+                - DomainName
+            S3OriginConfig: {}
+
+            OriginAccessControlId:
+              Fn::GetAtt:
+                - OriginAccessControl
+                - Id
+        Enabled: true
+        DefaultRootObject: index.html
+        DefaultCacheBehavior:
+          TargetOriginId: website
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD]
+          CachedMethods: [GET, HEAD]
+          ForwardedValues:
+            QueryString: false
+            Cookies:
+              Forward: none
+
+  S3BucketPolicy:
+    DependsOn:
+      - CloudfrontDistribution
+      - S3Bucket
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket:
+        Ref: S3Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: BucketCloudFront
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: 'arn:aws:s3:::learning-tracking-frontend/*'
+            Condition:
+              StringEquals:
+                AWS:SourceArn:
+                  Fn::Sub: 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudfrontDistribution.Id}'
