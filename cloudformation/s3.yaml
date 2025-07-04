@@ -80,7 +80,6 @@ Resources:
             Action: s3:GetObject
             Resource:
               Fn::Sub: '${S3Bucket.Arn}/*'
-            # Resource: 'arn:aws:s3:::learning-tracking-frontend/*'
             Condition:
               StringEquals:
                 AWS:SourceArn:

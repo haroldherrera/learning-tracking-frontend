@@ -31,7 +31,6 @@ jobs:
         with:
           aws-region: us-east-1
           role-to-assume: ${{ secrets.AWS_GITHUB_ROLE}}
-        #   role-to-assume: arn:aws:iam::926989967422:role/GithubActionsHarold
 
       - name: Create AWS Infrastructure
         run: |
