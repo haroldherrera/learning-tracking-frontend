@@ -9,7 +9,7 @@ function App() {
 
   return (
     <>
-      <Button>Click me again!</Button>
+      <Button>Click me 1!</Button>
       <div>
         <a href='https://vite.dev' target='_blank'>
           <img src={viteLogo} className='logo' alt='Vite logo' />

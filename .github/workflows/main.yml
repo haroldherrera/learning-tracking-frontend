@@ -51,8 +51,8 @@ jobs:
             --query "Stacks[0].Outputs[?OutputKey=='DistributionId'].OutputValue" \
             --output text)
           echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
-      - name: Run Cloudfront invalidations
-        run: |
-          aws cloudfront create-invalidation \
-              --distribution-id ${{ steps.get-distribution-id.outputs.distribution_id }} \
-              --paths "/"
+    #   - name: Run Cloudfront invalidations
+    #     run: |
+    #       aws cloudfront create-invalidation \
+    #           --distribution-id ${{ steps.get-distribution-id.outputs.distribution_id }} \
+    #           --paths "/"
