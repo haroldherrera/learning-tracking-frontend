@@ -7,6 +7,8 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  environment: stage
 jobs:
   frontend-build-and-deployment:
     name: Build
