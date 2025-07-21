@@ -16,3 +16,5 @@ jobs:
     uses: ./.github/workflows/main.yml
     with:
       environment: ${environment}
+    secrets:
+      AWS_GITHUB_ROLE: ${{ secrets.AWS_GITHUB_ROLE }}
