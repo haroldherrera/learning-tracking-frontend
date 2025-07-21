@@ -20,7 +20,7 @@ Resources:
     Type: AWS::S3::Bucket
     Properties:
       BucketName:
-        Fn::Sub: ${BucketName}-${Environment}
+        Fn::Sub: ${BucketName}
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
