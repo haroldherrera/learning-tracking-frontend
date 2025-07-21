@@ -7,12 +7,20 @@ Parameters:
     Type: String
     AllowedPattern: '^(?!.*\.\.)(?!-)(?!.*-$)(?!.*\.-)(?!.*-\.)[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$'
 
+  Environment:
+    Description: development | stage | production
+    Type: String
+    AllowedValues:
+      - development
+      - stage
+      - production
+
 Resources:
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName:
-        Ref: BucketName
+        Fn::Sub: ${BucketName}-${Environment}
       WebsiteConfiguration:
         IndexDocument: index.html
         ErrorDocument: error.html
@@ -27,8 +35,10 @@ Resources:
     Properties:
       OriginAccessControlConfig:
         OriginAccessControlOriginType: s3
-        Name: OACForCloudfront
-        Description: OACForCloudfront
+        Name:
+          Fn::Sub: OACForCloudfront-${Environment}
+        Description:
+          Fn::Sub: OACForCloudfront-${Environment}
         SigningBehavior: always
         SigningProtocol: sigv4
 
