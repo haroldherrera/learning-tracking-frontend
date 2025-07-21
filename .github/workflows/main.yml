@@ -42,7 +42,7 @@ jobs:
       - name: Create AWS Infrastructure
         run: |
           aws cloudformation deploy \
-          --stack-name '${{ vars.STACK_NAME }}' \
+          --stack-name '${{ vars.STACK_NAME }}-${{inputs.environment}}' \
           --template-file './cloudformation/s3.yaml' \
           --parameter-overrides BucketName=${{ vars.BUCKET_WEBSITE_NAME }}-${{inputs.environment}} \
             Environment=${{inputs.environment}}
@@ -55,7 +55,7 @@ jobs:
         id: get-distribution-id
         run: |
           DISTRIBUTION_ID=$(aws cloudformation describe-stacks \
-            --stack-name ${{ vars.STACK_NAME }} \
+            --stack-name ${{ vars.STACK_NAME }}-${{inputs.environment}} \
             --query "Stacks[0].Outputs[?OutputKey=='DistributionId'].OutputValue" \
             --output text)
           echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
