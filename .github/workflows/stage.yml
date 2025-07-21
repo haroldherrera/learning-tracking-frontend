@@ -1,7 +1,7 @@
 name: Deploy the React app on AWS S3
 on:
   push:
-    branches: ['main']
+    branches: ['stage']
 
 permissions:
   id-token: write
@@ -51,6 +51,7 @@ jobs:
             --query "Stacks[0].Outputs[?OutputKey=='DistributionId'].OutputValue" \
             --output text)
           echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
+
       - name: Run Cloudfront invalidations
         run: |
           aws cloudfront create-invalidation \
