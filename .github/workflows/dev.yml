@@ -7,6 +7,9 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  environment: development
+
 jobs:
   frontend-build-and-deployment:
     name: Build
@@ -37,7 +40,8 @@ jobs:
           aws cloudformation deploy \
           --stack-name '${{ vars.STACK_NAME }}' \
           --template-file './cloudformation/s3.yaml' \
-          --parameter-overrides BucketName=${{ vars.STACK_NAME }}
+          --parameter-overrides BucketName=${{ vars.BUCKET_WEBSITE_NAME }} \
+            Environment=${{env.environment}}
 
       - name: Push the website
         run: |
