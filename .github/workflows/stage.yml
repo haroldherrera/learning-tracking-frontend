@@ -9,53 +9,10 @@ permissions:
 
 env:
   environment: stage
+
 jobs:
-  frontend-build-and-deployment:
-    name: Build
-    runs-on: ubuntu-latest
-    environment: stage
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: install dependencies
-        run: npm ci
-
-      - name: Running Tests
-        run: npm run test
-
-      - name: Build
-        run: npm run build
-
-      - name: AWS authentication
-        uses: aws-actions/configure-aws-credentials@v4.1.0
-        with:
-          aws-region: us-east-1
-          role-to-assume: ${{ secrets.AWS_GITHUB_ROLE}}
-
-      - name: Create AWS Infrastructure
-        run: |
-          aws cloudformation deploy \
-          --stack-name '${{ vars.STACK_NAME }}' \
-          --template-file './cloudformation/s3.yaml' \
-          --parameter-overrides BucketName=${{ vars.STACK_NAME }} \
-            Environment=${{env.environment}}
-
-      - name: Push the website
-        run: |
-          aws s3 cp ./dist/ s3://${{ vars.BUCKET_WEBSITE_NAME }}-${{env.environment}}/ --recursive
-
-      - name: Get cloudfront Distribution Id from stack output
-        id: get-distribution-id
-        run: |
-          DISTRIBUTION_ID=$(aws cloudformation describe-stacks \
-            --stack-name ${{ vars.STACK_NAME }} \
-            --query "Stacks[0].Outputs[?OutputKey=='DistributionId'].OutputValue" \
-            --output text)
-          echo "distribution_id=$DISTRIBUTION_ID" >> $GITHUB_OUTPUT
-
-      - name: Run Cloudfront invalidations
-        run: |
-          aws cloudfront create-invalidation \
-              --distribution-id ${{ steps.get-distribution-id.outputs.distribution_id }} \
-              --paths "/"
+  deploy-website:
+    name: Run cloudformation to deploy s3 and cloudfront configuration
+    uses: ./.github/workflows/dev.yml
+    with:
+      environment: ${environment}
