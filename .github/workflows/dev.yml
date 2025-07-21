@@ -15,6 +15,6 @@ jobs:
     name: Run cloudformation to deploy s3 and cloudfront configuration
     uses: ./.github/workflows/main.yml
     with:
-      environment: ${environment}
+      environment: $environment
     secrets:
       AWS_GITHUB_ROLE: ${{ secrets.AWS_GITHUB_ROLE }}
