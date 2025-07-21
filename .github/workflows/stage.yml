@@ -7,14 +7,12 @@ permissions:
   id-token: write
   contents: read
 
-env:
-  environment: stage
-
 jobs:
   deploy-website:
     name: Run cloudformation to deploy s3 and cloudfront configuration
     uses: ./.github/workflows/main.yml
     with:
-      environment: $environment
+      environment: stage
+
     secrets:
       AWS_GITHUB_ROLE: ${{ secrets.AWS_GITHUB_ROLE }}
