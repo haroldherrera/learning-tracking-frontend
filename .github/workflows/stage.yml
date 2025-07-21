@@ -11,8 +11,7 @@ jobs:
   frontend-build-and-deployment:
     name: Build
     runs-on: ubuntu-latest
-    environment: development
-
+    environment: stage
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
