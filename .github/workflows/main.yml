@@ -48,8 +48,9 @@ jobs:
           --template-file './cloudformation/s3.yaml' \
           --parameter-overrides BucketName=${{ vars.BUCKET_WEBSITE_NAME }}-${{inputs.environment}} \
             Environment=${{inputs.environment}} \
-            HostedZoneId=123456789 \
-            DomainName=${{vars.Domain_Name}}
+            HostedZoneId=${{secrets.HOSTED_ZONE_ID}} \
+            DomainName=${{vars.Domain_Name}} \
+            CloudFrountHostedZoneId=${{vars.CLOUD_FROUNT_HOSTED_ZONE_ID}}
 
       - name: Push the website
         run: |
