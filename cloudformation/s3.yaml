@@ -148,7 +148,6 @@ Resources:
 
   Route53RecordSets:
     DependsOn: CloudfrontDistribution
-    Condition: IsStaging
     Type: AWS::Route53::RecordSetGroup
     Properties:
       HostedZoneId:
