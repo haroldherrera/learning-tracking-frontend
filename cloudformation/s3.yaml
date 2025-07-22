@@ -155,7 +155,7 @@ Resources:
         Ref: HostedZoneId
       RecordSets:
         - Name:
-            Ref: ${Environment}.${DomainName}
+            Fn::Sub: ${Environment}.${DomainName}
           Type: A
           AliasTarget:
             HostedZoneId:
