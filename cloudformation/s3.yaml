@@ -45,6 +45,10 @@ Resources:
       ValidationMethod: DNS
       DomainValidationOptions:
         - DomainName:
+            Ref: DomainName
+          HostedZoneId:
+            Ref: HostedZoneId
+        - DomainName:
             Fn::Sub: ${Environment}.${DomainName}
           HostedZoneId:
             Ref: HostedZoneId
