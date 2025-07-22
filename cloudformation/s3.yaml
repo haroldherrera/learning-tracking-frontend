@@ -35,6 +35,7 @@ Conditions:
 
 Resources:
   Certificate:
+    Condition: IsStaging
     Type: AWS::CertificateManager::Certificate
     Properties:
       DomainName:
