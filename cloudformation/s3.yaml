@@ -48,6 +48,8 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        Comment:
+          Fn::Sub: ${Environment}-Cloudfront
         Origins:
           - Id: website
             DomainName:
@@ -71,6 +73,10 @@ Resources:
             QueryString: false
             Cookies:
               Forward: none
+      Tags:
+        - Key: Description
+          Value:
+            Fn::Sub: Cloudfront-${Environment}
 
   S3BucketPolicy:
     DependsOn:
