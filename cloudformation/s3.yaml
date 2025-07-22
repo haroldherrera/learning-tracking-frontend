@@ -132,11 +132,7 @@ Resources:
           Type: A
           AliasTarget:
             HostedZoneId:
-<<<<<<< HEAD
               Ref: CloudFrountHostedZoneId
-=======
-              Ref: CloudfrontDistribution
->>>>>>> dev
             DNSName:
               Fn::GetAtt: CloudfrontDistribution.DomainName
         - Name:
