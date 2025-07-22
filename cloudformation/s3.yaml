@@ -91,7 +91,6 @@ Resources:
             QueryString: false
             Cookies:
               Forward: none
-        ConnectionMode: tenant-only
         ViewerCertificate:
           AcmCertificateArn: arn:aws:acm:us-east-1:926989967422:certificate/b5a25efc-a3c7-4b8f-ac2e-3b56945a8d93
           SslSupportMethod: sni-only
