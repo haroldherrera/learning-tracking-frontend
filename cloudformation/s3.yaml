@@ -115,29 +115,30 @@ Resources:
                 AWS:SourceArn:
                   Fn::Sub: 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudfrontDistribution.Id}'
 
-  Route53RecordSets:
-    Condition: IsStaging
-    Type: AWS::Route53::RecordSetGroup
-    Properties:
-      HostedZoneId:
-        Ref: HostedZoneId
-      RecordSets:
-        - Name:
-            Ref: DomainName
-          Type: A
-          AliasTarget:
-            HostedZoneId:
-              Ref: CloudfrontDistribution
-            DNSName:
-              Fn::GetAtt: CloudfrontDistribution.DomainName
-        - Name:
-            Fn::Sub: www.${DomainName}
-          Type: A
-          AliasTarget:
-            HostedZoneId:
-              Ref: CloudfrontDistribution
-            DNSName:
-              Fn::GetAtt: CloudfrontDistribution.DomainName
+  # Route53RecordSets:
+  #   DependsOn: CloudfrontDistribution
+  #   Condition: IsStaging
+  #   Type: AWS::Route53::RecordSetGroup
+  #   Properties:
+  #     HostedZoneId:
+  #       Ref: HostedZoneId
+  #     RecordSets:
+  #       - Name:
+  #           Ref: DomainName
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId:
+  #             Ref: CloudfrontDistribution
+  #           DNSName:
+  #             Fn::GetAtt: CloudfrontDistribution.DomainName
+  #       - Name:
+  #           Fn::Sub: www.${DomainName}
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId:
+  #             Ref: CloudfrontDistribution
+  #           DNSName:
+  #             Fn::GetAtt: CloudfrontDistribution.DomainName
 
 Outputs:
   DistributionId:
