@@ -16,3 +16,4 @@ jobs:
 
     secrets:
       AWS_GITHUB_ROLE: ${{ secrets.AWS_GITHUB_ROLE }}
+      HOSTED_ZONE_ID: ${{ secrets.HOSTED_ZONE_ID }}

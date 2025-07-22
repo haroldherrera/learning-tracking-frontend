@@ -15,6 +15,12 @@ Parameters:
       - stage
       - production
 
+  HostedZoneId:
+    Type: String
+
+  DomainName:
+    Type: String
+
 Conditions:
   IsStaging:
     Fn::Equals:

@@ -9,6 +9,8 @@ on:
     secrets:
       AWS_GITHUB_ROLE:
         required: true
+      HOSTED_ZONE_ID:
+        required: false
 
 permissions:
   id-token: write
@@ -45,7 +47,8 @@ jobs:
           --stack-name '${{ vars.STACK_NAME }}-${{inputs.environment}}' \
           --template-file './cloudformation/s3.yaml' \
           --parameter-overrides BucketName=${{ vars.BUCKET_WEBSITE_NAME }}-${{inputs.environment}} \
-            Environment=${{inputs.environment}}
+            Environment=${{inputs.environment}} \
+            HOSTED_ZONE_ID=${{secrets.HOSTED_ZONE_ID}}
 
       - name: Push the website
         run: |
