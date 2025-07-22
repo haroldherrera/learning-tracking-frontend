@@ -96,7 +96,6 @@ Resources:
           SslSupportMethod: sni-only
         Aliases:
           - mastersweb.click
-          - www.mastersweb.click
       Tags:
         - Key: Description
           Value:
