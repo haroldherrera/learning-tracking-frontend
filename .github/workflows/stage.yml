@@ -7,8 +7,6 @@ permissions:
   id-token: write
   contents: read
 
-env:
-  environment: stage
 jobs:
   deploy-website:
     name: Run cloudformation to deploy s3 and cloudfront configuration
