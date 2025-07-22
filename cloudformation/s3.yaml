@@ -34,6 +34,22 @@ Conditions:
       - stage
 
 Resources:
+  Certificate:
+    Type: AWS::CertificateManager::Certificate
+    Properties:
+      DomainName:
+        Ref: DomainName
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName:
+            Ref: DomainName
+          HostedZoneId:
+            Ref: HostedZoneId
+        - DomainName:
+            Fn::Sub: www.${DomainName}
+          HostedZoneId:
+            Ref: HostedZoneId
+
   S3Bucket:
     Type: AWS::S3::Bucket
     Properties:
@@ -94,7 +110,8 @@ Resources:
         ViewerCertificate:
           Fn::If:
             - IsStaging
-            - AcmCertificateArn: arn:aws:acm:us-east-1:926989967422:certificate/b5a25efc-a3c7-4b8f-ac2e-3b56945a8d93
+            - AcmCertificateArn:
+                ref: Certificate
               SslSupportMethod: sni-only
             - CloudFrontDefaultCertificate: true
         Aliases:
