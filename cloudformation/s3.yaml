@@ -38,9 +38,10 @@ Resources:
     Type: AWS::CertificateManager::Certificate
     Properties:
       DomainName:
-        Fn::Sub: ${Environment}.${DomainName}
+        Ref: DomainName
       SubjectAlternativeNames:
         - Fn::Sub: www.${Environment}.${DomainName}
+        - Fn::Sub: ${Environment}.${DomainName}
       ValidationMethod: DNS
       DomainValidationOptions:
         - DomainName:
