@@ -49,7 +49,7 @@ Resources:
     Properties:
       DistributionConfig:
         Comment:
-          Fn::Sub: Cloudfront-${Environment}
+          Fn::Sub: ${Environment}-Cloudfront
         Origins:
           - Id: website
             DomainName:
