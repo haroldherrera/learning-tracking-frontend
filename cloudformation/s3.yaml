@@ -118,7 +118,6 @@ Resources:
           AcmCertificateArn:
             Ref: Certificate
           SslSupportMethod: sni-only
-          CloudFrontDefaultCertificate: true
         Aliases:
           - Fn::Sub: ${Environment}.${DomainName}
           - Fn::Sub: www.${Environment}.${DomainName}
