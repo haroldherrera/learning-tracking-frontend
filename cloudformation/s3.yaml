@@ -101,6 +101,7 @@ Resources:
           Fn::If:
             - IsStaging
             - - mastersweb.click
+              - www.mastersweb.click
             - Ref: AWS::NoValue
 
       Tags:
