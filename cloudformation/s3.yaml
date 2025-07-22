@@ -40,6 +40,8 @@ Resources:
     Properties:
       DomainName:
         Ref: DomainName
+      SubjectAlternativeNames:
+        - Fn::Sub: www.${DomainName}
       ValidationMethod: DNS
       DomainValidationOptions:
         - DomainName:
