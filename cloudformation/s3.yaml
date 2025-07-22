@@ -156,6 +156,7 @@ Resources:
   #     DNSName:
   #       Fn::GetAtt: CloudfrontDistribution.DomainName
 
+
 Outputs:
   DistributionId:
     Description: The distribution id that was just created or updated
