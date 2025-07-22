@@ -20,7 +20,7 @@ jobs:
   frontend-build-and-deployment:
     name: Build
     runs-on: ubuntu-latest
-    environment: development
+    environment: ${{ inputs.environment }}
 
     steps:
       - name: Checkout Code
