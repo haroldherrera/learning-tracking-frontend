@@ -48,6 +48,8 @@ Resources:
     Type: AWS::CloudFront::Distribution
     Properties:
       DistributionConfig:
+        Comment:
+          Fn::Sub: Cloudfront-${Environment}
         Origins:
           - Id: website
             DomainName:
