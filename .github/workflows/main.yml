@@ -20,7 +20,7 @@ jobs:
   frontend-build-and-deployment:
     name: Build
     runs-on: ubuntu-latest
-    environment: development
+    environment: ${{ inputs.environment }}
 
     steps:
       - name: Checkout Code
@@ -48,7 +48,7 @@ jobs:
           --template-file './cloudformation/s3.yaml' \
           --parameter-overrides BucketName=${{ vars.BUCKET_WEBSITE_NAME }}-${{inputs.environment}} \
             Environment=${{inputs.environment}} \
-            HostedZoneId=123456789 \
+            HostedZoneId=${{secrets.HOSTED_ZONE_ID}} \
             DomainName=${{vars.Domain_Name}}
 
       - name: Push the website
