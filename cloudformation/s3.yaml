@@ -35,13 +35,13 @@ Conditions:
 
 Resources:
   Certificate:
-    Condition: IsStaging
     Type: AWS::CertificateManager::Certificate
     Properties:
       DomainName:
         Ref: DomainName
       SubjectAlternativeNames:
-        - Fn::Sub: www.${DomainName}
+        - Fn::Sub: www.${Environment}.${DomainName}
+        - Fn::Sub: ${Environment}.${DomainName}
       ValidationMethod: DNS
       DomainValidationOptions:
         - DomainName:
@@ -49,7 +49,11 @@ Resources:
           HostedZoneId:
             Ref: HostedZoneId
         - DomainName:
-            Fn::Sub: www.${DomainName}
+            Fn::Sub: ${Environment}.${DomainName}
+          HostedZoneId:
+            Ref: HostedZoneId
+        - DomainName:
+            Fn::Sub: www.${Environment}.${DomainName}
           HostedZoneId:
             Ref: HostedZoneId
 
@@ -111,18 +115,12 @@ Resources:
             Cookies:
               Forward: none
         ViewerCertificate:
-          Fn::If:
-            - IsStaging
-            - AcmCertificateArn:
-                Ref: Certificate
-              SslSupportMethod: sni-only
-            - CloudFrontDefaultCertificate: true
+          AcmCertificateArn:
+            Ref: Certificate
+          SslSupportMethod: sni-only
         Aliases:
-          Fn::If:
-            - IsStaging
-            - - mastersweb.click
-              - www.mastersweb.click
-            - Ref: AWS::NoValue
+          - Fn::Sub: ${Environment}.${DomainName}
+          - Fn::Sub: www.${Environment}.${DomainName}
 
       Tags:
         - Key: Description
@@ -154,14 +152,13 @@ Resources:
 
   Route53RecordSets:
     DependsOn: CloudfrontDistribution
-    Condition: IsStaging
     Type: AWS::Route53::RecordSetGroup
     Properties:
       HostedZoneId:
         Ref: HostedZoneId
       RecordSets:
         - Name:
-            Ref: DomainName
+            Fn::Sub: ${Environment}.${DomainName}
           Type: A
           AliasTarget:
             HostedZoneId:
@@ -170,7 +167,7 @@ Resources:
               Fn::GetAtt: CloudfrontDistribution.DomainName
 
         - Name:
-            Fn::Sub: www.${DomainName}
+            Fn::Sub: www.${Environment}.${DomainName}
           Type: A
           AliasTarget:
             HostedZoneId:
