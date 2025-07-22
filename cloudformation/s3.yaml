@@ -112,7 +112,7 @@ Resources:
           Fn::If:
             - IsStaging
             - AcmCertificateArn:
-                ref: Certificate
+                Ref: Certificate
               SslSupportMethod: sni-only
             - CloudFrontDefaultCertificate: true
         Aliases:
