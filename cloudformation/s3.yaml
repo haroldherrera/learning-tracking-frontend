@@ -23,6 +23,10 @@ Parameters:
     Type: String
     Default: ''
 
+  CloudFrountHostedZoneId:
+    Type: String
+    Default: Z2FDTNDATAQYW2
+
 Conditions:
   IsStaging:
     Fn::Equals:
@@ -128,7 +132,7 @@ Resources:
           Type: A
           AliasTarget:
             HostedZoneId:
-              Ref: CloudfrontDistribution
+              Ref: CloudFrountHostedZoneId
             DNSName:
               Fn::GetAtt: CloudfrontDistribution.DomainName
         - Name:
@@ -136,7 +140,7 @@ Resources:
           Type: A
           AliasTarget:
             HostedZoneId:
-              Ref: CloudfrontDistribution
+              Ref: CloudFrountHostedZoneId
             DNSName:
               Fn::GetAtt: CloudfrontDistribution.DomainName
 
