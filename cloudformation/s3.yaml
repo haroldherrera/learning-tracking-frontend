@@ -148,14 +148,14 @@ Resources:
             DNSName:
               Fn::GetAtt: CloudfrontDistribution.DomainName
 
-  # - Name:
-  #     Fn::Sub: www.${DomainName}
-  #   Type: A
-  #   AliasTarget:
-  #     HostedZoneId:
-  #       Ref: CloudFrountHostedZoneId
-  #     DNSName:
-  #       Fn::GetAtt: CloudfrontDistribution.DomainName
+        - Name:
+            Fn::Sub: www.${DomainName}
+          Type: A
+          AliasTarget:
+            HostedZoneId:
+              Ref: CloudFrountHostedZoneId
+            DNSName:
+              Fn::GetAtt: CloudfrontDistribution.DomainName
 
 Outputs:
   DistributionId:
