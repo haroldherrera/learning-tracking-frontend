@@ -71,6 +71,10 @@ Resources:
             QueryString: false
             Cookies:
               Forward: none
+      Tags:
+        - Key: Description
+          Value:
+            Fn::Sub: Cloudfront-${Environment}
 
   S3BucketPolicy:
     DependsOn:
