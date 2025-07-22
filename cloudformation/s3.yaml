@@ -92,10 +92,14 @@ Resources:
             Cookies:
               Forward: none
         ViewerCertificate:
-          AcmCertificateArn: arn:aws:acm:us-east-1:926989967422:certificate/b5a25efc-a3c7-4b8f-ac2e-3b56945a8d93
-          SslSupportMethod: sni-only
+          Fn::If:
+            - IsStaging:
+            - - AcmCertificateArn: arn:aws:acm:us-east-1:926989967422:certificate/b5a25efc-a3c7-4b8f-ac2e-3b56945a8d93
+                SslSupportMethod: sni-only
         Aliases:
-          - mastersweb.click
+          Fn::If:
+            - IsStaging:
+            - mastersweb.click
       Tags:
         - Key: Description
           Value:
@@ -124,30 +128,30 @@ Resources:
                 AWS:SourceArn:
                   Fn::Sub: 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudfrontDistribution.Id}'
 
-  Route53RecordSets:
-    DependsOn: CloudfrontDistribution
-    Condition: IsStaging
-    Type: AWS::Route53::RecordSetGroup
-    Properties:
-      HostedZoneId:
-        Ref: HostedZoneId
-      RecordSets:
-        - Name:
-            Ref: DomainName
-          Type: A
-          AliasTarget:
-            HostedZoneId:
-              Ref: CloudFrountHostedZoneId
-            DNSName:
-              Fn::GetAtt: CloudfrontDistribution.DomainName
-        - Name:
-            Fn::Sub: www.${DomainName}
-          Type: A
-          AliasTarget:
-            HostedZoneId:
-              Ref: CloudFrountHostedZoneId
-            DNSName:
-              Fn::GetAtt: CloudfrontDistribution.DomainName
+  # Route53RecordSets:
+  #   DependsOn: CloudfrontDistribution
+  #   Condition: IsStaging
+  #   Type: AWS::Route53::RecordSetGroup
+  #   Properties:
+  #     HostedZoneId:
+  #       Ref: HostedZoneId
+  #     RecordSets:
+  #       - Name:
+  #           Ref: DomainName
+  #         Type: A
+  #         AliasTarget:
+  #           HostedZoneId:
+  #             Ref: CloudFrountHostedZoneId
+  #           DNSName:
+  #             Fn::GetAtt: CloudfrontDistribution.DomainName
+  # - Name:
+  #     Fn::Sub: www.${DomainName}
+  #   Type: A
+  #   AliasTarget:
+  #     HostedZoneId:
+  #       Ref: CloudFrountHostedZoneId
+  #     DNSName:
+  #       Fn::GetAtt: CloudfrontDistribution.DomainName
 
 Outputs:
   DistributionId:
