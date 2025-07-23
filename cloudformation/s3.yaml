@@ -38,14 +38,14 @@ Resources:
     Type: AWS::CertificateManager::Certificate
     Properties:
       DomainName:
-        Ref: ${Environment}.${DomainName}
+        Fn::Sub: ${Environment}.${DomainName}
       SubjectAlternativeNames:
         - Fn::Sub: www.${Environment}.${DomainName}
         - Fn::Sub: ${Environment}.${DomainName}
       ValidationMethod: DNS
       DomainValidationOptions:
         - DomainName:
-            Ref: ${Environment}.${DomainName}
+            Fn::Sub: ${Environment}.${DomainName}
           HostedZoneId:
             Ref: HostedZoneId
         - DomainName:
