@@ -10,6 +10,7 @@ permissions:
 jobs:
   deploy-website:
     name: Run cloudformation to deploy s3 and cloudfront configuration
+    if: (github.event_name == 'push' && contains(toJSON(github.event.head_commit.message), 'Merge branch ''stage'' into dev') == false)
     uses: ./.github/workflows/main.yml
     with:
       environment: development
