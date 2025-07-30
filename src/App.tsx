@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
@@ -6,6 +6,17 @@ import { Button } from '@/components/ui/button';
 
 function App() {
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      const data = await fetch(
+        'https://www.api.development.mastersweb.click/tasks'
+      );
+      console.log(await data.json());
+    };
+
+    fetchTasks();
+  });
 
   return (
     <>
